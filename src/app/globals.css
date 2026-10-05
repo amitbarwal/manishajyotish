@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1a0e08;
+  --ink-soft: #3a261c;
+  --parchment: #f5ecd9;
+  --parchment-2: #ede2c8;
+  --maroon: #6b1f1a;
+  --maroon-deep: #4a1310;
+  --saffron: #c8821c;
+  --gold: #b08438;
+  --gold-soft: #d4a85a;
+  --vermillion: #a8331f;
+  --teal: #244545;
+  --shadow: rgba(74, 19, 16, 0.18);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-parchment: var(--parchment);
+  --color-parchment-2: var(--parchment-2);
+  --color-maroon: var(--maroon);
+  --color-maroon-deep: var(--maroon-deep);
+  --color-saffron: var(--saffron);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-vermillion: var(--vermillion);
+  --color-teal: var(--teal);
+
+  --font-khand: var(--font-khand);
+  --font-noto: var(--font-noto);
+  --font-cinzel: var(--font-cinzel);
+  --font-cormorant: var(--font-cormorant);
+}
+
+body {
+  color: var(--ink);
+  background: var(--parchment);
+  line-height: 1.8;
+  font-size: 17px;
+  overflow-x: hidden;
+  background-image: radial-gradient(at 20% 10%, rgba(200, 130, 28, 0.09), transparent 50%),
+                    radial-gradient(at 80% 90%, rgba(107, 31, 26, 0.07), transparent 50%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+  background-image: repeating-linear-gradient(0deg, rgba(74, 19, 16, 0.012) 0 2px, transparent 2px 4px),
+                    repeating-linear-gradient(90deg, rgba(74, 19, 16, 0.012) 0 2px, transparent 2px 4px);
+}
+
+.om-text {
+  text-shadow: 0 2px 12px rgba(107, 31, 26, 0.15);
+}
+
+html {
+  scroll-behavior: smooth;
+}
