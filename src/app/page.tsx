@@ -1,79 +1,80 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const HeroSlider = () => {
-  const slides = [
-    {
-      title: "Awaken Your Cosmic Destiny",
-      subtitle: "Vedic Astrology & Spiritual Guidance",
-      desc: "Unlock the hidden patterns of your life with profound insights from Pandit Monu Sharma.",
-      icon: "✨",
-      bg: "from-maroon/20 via-transparent to-transparent"
-    },
-    {
-      title: "Honoring Ancestral Roots",
-      subtitle: "Sacred Rituals & Pitru Tarpan",
-      desc: "Perform authentic Vedic rituals to seek blessings from your ancestors and clear karmic blockages.",
-      icon: "🔱",
-      bg: "from-saffron/20 via-transparent to-transparent"
-    },
-    {
-      title: "Harmony in Your Space",
-      subtitle: "Vastu Shastra Consultation",
-      desc: "Align your home and workspace with universal energies for peace, prosperity, and health.",
-      icon: "🏡",
-      bg: "from-teal/20 via-transparent to-transparent"
-    }
-  ];
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-  const [current, setCurrent] = useState(0);
+const HeroSection = () => {
+  const container = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+  useGSAP(() => {
+    // Initial Entrance Animation
+    gsap.fromTo(".hero-text-block > *",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.2 }
+    );
+
+    // Scroll Fade Out Animation
+    gsap.to(".hero-text-block", {
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+      y: -150,
+      opacity: 0,
+      scale: 0.95
+    });
+  }, { scope: container });
 
   return (
-    <div className="relative min-h-[75vh] flex items-center justify-center overflow-hidden border-b border-gold/35">
-      {slides.map((slide, idx) => (
-        <div 
-          key={idx}
-          className={`absolute inset-0 bg-gradient-to-b ${slide.bg} transition-opacity duration-1000 flex flex-col items-center justify-center text-center px-6 ${idx === current ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+    <div ref={container} className="relative h-[100vh] w-full">
+      {/* Sticky Background - Premium Maroon/Ink Fallback */}
+      <div className="fixed top-0 left-0 w-full h-[100vh] overflow-hidden z-0 bg-gradient-to-br from-maroon-deep via-[#1a0e08] to-maroon">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="absolute inset-0 object-cover w-full h-full opacity-30 mix-blend-screen"
         >
-          <div className="text-6xl mb-6 drop-shadow-md animate-bounce">{slide.icon}</div>
-          <h1 className="font-cinzel text-maroon-deep text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 drop-shadow-sm">
-            {slide.title}
+          {/* Add a video named hero-bg.mp4 in the public folder to use it */}
+          <source src="/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Golden dust texture overlay */}
+        <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+        {/* Gradient Overlay that fades into the rest of the site */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#1a0e08]"></div>
+      </div>
+
+      {/* Hero Content aligned center */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 mt-10">
+        <div className="hero-text-block flex flex-col items-center">
+          <div className="text-5xl md:text-6xl mb-6 drop-shadow-[0_0_20px_rgba(212,168,90,0.6)]">
+            ✨
+          </div>
+          <h1 className="font-cinzel text-parchment text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] leading-tight max-w-4xl">
+            Awaken Your Cosmic Destiny
           </h1>
-          <h2 className="font-cormorant text-2xl md:text-3xl text-maroon font-semibold italic mb-4">
-            {slide.subtitle}
+          <h2 className="font-cormorant text-xl md:text-2xl lg:text-3xl text-gold font-semibold italic mb-6 drop-shadow-[0_0_15px_rgba(212,168,90,0.3)]">
+            Vedic Astrology & Spiritual Guidance
           </h2>
-          <p className="font-noto text-ink-soft text-lg md:text-xl max-w-2xl mx-auto mb-8">
-            {slide.desc}
+          <p className="font-noto text-parchment-2 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-md">
+            Unlock the hidden patterns of your life with profound insights from Pandit Monu Sharma.
           </p>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link href="/contact" className="font-cinzel border border-gold rounded-full px-8 py-3 bg-maroon text-white hover:bg-maroon-deep hover:shadow-lg hover:shadow-maroon/20 transition-all duration-300 tracking-wider">
+            <Link href="/contact" className="font-cinzel border border-gold rounded-full px-8 py-3 bg-gradient-to-r from-gold to-gold-soft text-ink hover:shadow-[0_0_25px_rgba(176,132,56,0.6)] hover:scale-105 transition-all duration-300 tracking-widest font-bold text-sm">
               Book a Consultation
             </Link>
-            <Link href="/services" className="font-cinzel border border-gold rounded-full px-8 py-3 bg-parchment-2/50 backdrop-blur-sm text-maroon hover:bg-maroon hover:text-white transition-colors duration-300 tracking-wider">
+            <Link href="/services" className="font-cinzel border border-gold/40 rounded-full px-8 py-3 bg-ink/40 backdrop-blur-md text-gold hover:bg-gold hover:text-ink hover:scale-105 transition-all duration-300 tracking-widest font-bold text-sm">
               Explore Services
             </Link>
           </div>
         </div>
-      ))}
-      
-      {/* Slider Indicators */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-20">
-        {slides.map((_, idx) => (
-          <button 
-            key={idx} 
-            onClick={() => setCurrent(idx)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === current ? 'bg-maroon w-8' : 'bg-gold/50'}`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
       </div>
     </div>
   );
@@ -82,27 +83,27 @@ const HeroSlider = () => {
 export default function Home() {
   return (
     <>
-      {/* Hero Slider Section */}
-      <HeroSlider />
+      {/* Hero Section */}
+      <HeroSection />
 
       {/* Trust Stats Section */}
-      <section className="py-12 bg-maroon-deep text-parchment border-b border-gold/40 relative z-10">
-        <div className="max-w-[1120px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gold/20">
+      <section className="py-12 bg-gradient-to-r from-maroon-deep to-maroon text-parchment border-y border-gold/40 relative z-20 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+        <div className="max-w-[1120px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gold/30">
           <div>
-            <div className="font-cinzel text-3xl md:text-4xl text-saffron font-bold mb-2">15+</div>
-            <div className="font-noto text-sm tracking-widest uppercase opacity-80">Years Experience</div>
+            <div className="font-cinzel text-3xl md:text-4xl text-gold-soft font-bold mb-2 drop-shadow-md">15+</div>
+            <div className="font-noto text-sm tracking-widest uppercase opacity-80 text-parchment-2">Years Experience</div>
           </div>
           <div>
-            <div className="font-cinzel text-3xl md:text-4xl text-saffron font-bold mb-2">10k+</div>
-            <div className="font-noto text-sm tracking-widest uppercase opacity-80">Horoscopes Read</div>
+            <div className="font-cinzel text-3xl md:text-4xl text-gold-soft font-bold mb-2 drop-shadow-md">10k+</div>
+            <div className="font-noto text-sm tracking-widest uppercase opacity-80 text-parchment-2">Horoscopes Read</div>
           </div>
           <div>
-            <div className="font-cinzel text-3xl md:text-4xl text-saffron font-bold mb-2">100%</div>
-            <div className="font-noto text-sm tracking-widest uppercase opacity-80">Confidentiality</div>
+            <div className="font-cinzel text-3xl md:text-4xl text-gold-soft font-bold mb-2 drop-shadow-md">100%</div>
+            <div className="font-noto text-sm tracking-widest uppercase opacity-80 text-parchment-2">Confidentiality</div>
           </div>
           <div>
-            <div className="font-cinzel text-3xl md:text-4xl text-saffron font-bold mb-2">500+</div>
-            <div className="font-noto text-sm tracking-widest uppercase opacity-80">Rituals Performed</div>
+            <div className="font-cinzel text-3xl md:text-4xl text-gold-soft font-bold mb-2 drop-shadow-md">500+</div>
+            <div className="font-noto text-sm tracking-widest uppercase opacity-80 text-parchment-2">Rituals Performed</div>
           </div>
         </div>
       </section>
@@ -110,9 +111,9 @@ export default function Home() {
       {/* Why Choose Us Section */}
       <section className="py-20 max-w-[1120px] mx-auto px-6 relative z-10">
         <div className="text-center mb-14">
-          <span className="font-cinzel text-saffron tracking-widest text-sm font-bold uppercase">The Path of Truth</span>
-          <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mt-2 mb-4">Why Trust Pandit Monu Sharma?</h2>
-          <div className="h-[2px] w-24 bg-gold mx-auto"></div>
+          <span className="font-cinzel text-saffron tracking-widest text-sm font-bold uppercase drop-shadow-sm">The Path of Truth</span>
+          <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mt-2 mb-4 drop-shadow-sm">Why Trust Pandit Monu Sharma?</h2>
+          <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"></div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -133,9 +134,9 @@ export default function Home() {
               icon: "🔒"
             }
           ].map((item, idx) => (
-            <div key={idx} className="bg-amber-50/60 border border-gold/30 rounded-xl p-8 text-center hover:-translate-y-2 transition-transform duration-300 shadow-sm">
+            <div key={idx} className="bg-gradient-to-b from-parchment to-parchment-2 border border-gold/30 rounded-xl p-8 text-center hover:-translate-y-2 transition-transform duration-300 shadow-[0_4px_15px_var(--shadow)]">
               <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="font-khand text-2xl text-maroon font-bold mb-3">{item.title}</h3>
+              <h3 className="font-khand text-2xl text-maroon-deep font-bold mb-3">{item.title}</h3>
               <p className="font-noto text-ink-soft leading-relaxed">{item.desc}</p>
             </div>
           ))}
@@ -143,33 +144,33 @@ export default function Home() {
       </section>
 
       {/* Services Overview Section */}
-      <section className="py-20 bg-parchment-2/40 border-y border-gold/20 relative z-10">
+      <section className="py-20 bg-gradient-to-b from-parchment-2/50 to-parchment/80 border-y border-maroon/10 relative z-10 shadow-inner">
         <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mb-4">Our Sacred Offerings</h2>
+            <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mb-4 drop-shadow-sm">Our Sacred Offerings</h2>
             <p className="font-noto text-ink-soft text-lg max-w-2xl mx-auto italic">Guiding you through life's cosmic journey with wisdom and devotion.</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="group relative overflow-hidden rounded-xl border border-gold/40 bg-parchment p-8 hover:shadow-xl transition-all">
-              <div className="text-5xl mb-6 text-maroon/20 group-hover:text-maroon/40 transition-colors absolute top-4 right-4">⭐</div>
-              <h3 className="font-cinzel text-2xl text-maroon font-bold mb-4 relative z-10">Vedic Astrology</h3>
+            <div className="group relative overflow-hidden rounded-xl border border-maroon/20 bg-gradient-to-br from-parchment to-parchment-2 p-8 hover:shadow-[0_8px_25px_var(--shadow)] hover:border-gold/50 transition-all duration-300">
+              <div className="text-5xl mb-6 text-maroon/10 group-hover:text-gold/30 transition-colors absolute top-4 right-4">⭐</div>
+              <h3 className="font-cinzel text-2xl text-maroon-deep font-bold mb-4 relative z-10">Vedic Astrology</h3>
               <p className="font-noto text-ink-soft mb-6 relative z-10">Discover your life's blueprint through precise Janam Kundali analysis and planetary transits.</p>
-              <Link href="/services" className="text-saffron font-bold font-cinzel text-sm tracking-wider hover:text-maroon transition-colors relative z-10">Read More →</Link>
+              <Link href="/services" className="text-maroon font-bold font-cinzel text-sm tracking-wider hover:text-saffron transition-colors relative z-10 uppercase">Read More →</Link>
             </div>
             
-            <div className="group relative overflow-hidden rounded-xl border border-gold/40 bg-parchment p-8 hover:shadow-xl transition-all">
-              <div className="text-5xl mb-6 text-maroon/20 group-hover:text-maroon/40 transition-colors absolute top-4 right-4">🔥</div>
-              <h3 className="font-cinzel text-2xl text-maroon font-bold mb-4 relative z-10">Vedic Rituals</h3>
+            <div className="group relative overflow-hidden rounded-xl border border-maroon/20 bg-gradient-to-br from-parchment to-parchment-2 p-8 hover:shadow-[0_8px_25px_var(--shadow)] hover:border-gold/50 transition-all duration-300">
+              <div className="text-5xl mb-6 text-maroon/10 group-hover:text-gold/30 transition-colors absolute top-4 right-4">🔥</div>
+              <h3 className="font-cinzel text-2xl text-maroon-deep font-bold mb-4 relative z-10">Vedic Rituals</h3>
               <p className="font-noto text-ink-soft mb-6 relative z-10">Authentic Hawans, Pujas, and Pitru Tarpan performed with strict adherence to Shastras.</p>
-              <Link href="/services" className="text-saffron font-bold font-cinzel text-sm tracking-wider hover:text-maroon transition-colors relative z-10">Read More →</Link>
+              <Link href="/services" className="text-maroon font-bold font-cinzel text-sm tracking-wider hover:text-saffron transition-colors relative z-10 uppercase">Read More →</Link>
             </div>
 
-            <div className="group relative overflow-hidden rounded-xl border border-gold/40 bg-parchment p-8 hover:shadow-xl transition-all">
-              <div className="text-5xl mb-6 text-maroon/20 group-hover:text-maroon/40 transition-colors absolute top-4 right-4">🤲</div>
-              <h3 className="font-cinzel text-2xl text-maroon font-bold mb-4 relative z-10">Daan & Seva</h3>
+            <div className="group relative overflow-hidden rounded-xl border border-maroon/20 bg-gradient-to-br from-parchment to-parchment-2 p-8 hover:shadow-[0_8px_25px_var(--shadow)] hover:border-gold/50 transition-all duration-300">
+              <div className="text-5xl mb-6 text-maroon/10 group-hover:text-gold/30 transition-colors absolute top-4 right-4">🤲</div>
+              <h3 className="font-cinzel text-2xl text-maroon-deep font-bold mb-4 relative z-10">Daan & Seva</h3>
               <p className="font-noto text-ink-soft mb-6 relative z-10">Engage in karmic cleansing through guided charity, Brahman Bhojan, and Gau Seva.</p>
-              <Link href="/services" className="text-saffron font-bold font-cinzel text-sm tracking-wider hover:text-maroon transition-colors relative z-10">Read More →</Link>
+              <Link href="/services" className="text-maroon font-bold font-cinzel text-sm tracking-wider hover:text-saffron transition-colors relative z-10 uppercase">Read More →</Link>
             </div>
           </div>
         </div>
@@ -178,8 +179,8 @@ export default function Home() {
       {/* Testimonials Section */}
       <section className="py-20 max-w-[1120px] mx-auto px-6 relative z-10">
         <div className="text-center mb-14">
-          <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mb-4">Voices of Faith</h2>
-          <div className="h-[2px] w-24 bg-gold mx-auto"></div>
+          <h2 className="font-cinzel text-maroon-deep text-3xl md:text-4xl font-bold mb-4 drop-shadow-sm">Voices of Faith</h2>
+          <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"></div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
@@ -200,14 +201,14 @@ export default function Home() {
               location: "Ahmedabad"
             }
           ].map((testimonial, idx) => (
-            <div key={idx} className="bg-gradient-to-br from-parchment to-parchment-2 border border-gold/30 rounded-br-3xl rounded-tl-3xl p-8 relative">
-              <div className="text-4xl text-saffron/40 absolute top-4 left-4 font-serif">"</div>
+            <div key={idx} className="bg-white/40 backdrop-blur-sm border border-gold/40 shadow-[0_4px_15px_var(--shadow)] rounded-br-3xl rounded-tl-3xl p-8 relative">
+              <div className="text-5xl text-gold/30 absolute top-2 left-4 font-serif">"</div>
               <p className="font-noto text-ink-soft italic leading-relaxed mb-6 relative z-10 pt-4">
                 {testimonial.quote}
               </p>
-              <div className="border-t border-gold/20 pt-4">
-                <div className="font-cinzel font-bold text-maroon">{testimonial.name}</div>
-                <div className="font-noto text-sm text-ink-soft">{testimonial.location}</div>
+              <div className="border-t border-maroon/10 pt-4">
+                <div className="font-cinzel font-bold text-maroon-deep">{testimonial.name}</div>
+                <div className="font-noto text-sm text-ink-soft/80">{testimonial.location}</div>
               </div>
             </div>
           ))}
@@ -216,17 +217,23 @@ export default function Home() {
 
       {/* Call to Action Section */}
       <section className="py-16 mb-10 max-w-[900px] mx-auto px-6 relative z-10">
-        <div className="border-2 border-gold rounded-2xl p-10 md:p-14 bg-gradient-to-b from-amber-50/95 to-parchment-2/80 shadow-[0_6px_22px_var(--shadow)] text-center">
-          <div className="font-noto text-4xl text-maroon-deep font-extrabold mb-4 leading-loose">
+        <div className="border-2 border-maroon/20 rounded-2xl p-10 md:p-14 bg-gradient-to-b from-parchment-2 to-parchment shadow-[0_10px_40px_var(--shadow)] text-center relative overflow-hidden">
+          {/* Decorative Corner Ornaments */}
+          <div className="absolute top-4 left-4 text-gold/30 text-2xl">✧</div>
+          <div className="absolute top-4 right-4 text-gold/30 text-2xl">✧</div>
+          <div className="absolute bottom-4 left-4 text-gold/30 text-2xl">✧</div>
+          <div className="absolute bottom-4 right-4 text-gold/30 text-2xl">✧</div>
+
+          <div className="font-noto text-4xl text-maroon/80 font-extrabold mb-4 leading-loose om-text">
             ॐ सर्वे भवन्तु सुखिनः
           </div>
-          <h2 className="font-cinzel text-2xl md:text-3xl text-maroon mb-6 font-bold tracking-wide">
+          <h2 className="font-cinzel text-2xl md:text-3xl text-maroon-deep mb-6 font-bold tracking-wide drop-shadow-sm">
             Ready to Find Clarity & Peace?
           </h2>
           <p className="font-noto text-ink-soft mb-8 text-lg max-w-xl mx-auto">
             Book a confidential consultation today to explore your astrological chart or arrange a sacred ritual tailored to your spiritual needs.
           </p>
-          <Link href="/contact" className="inline-block font-cinzel border border-gold rounded-full px-10 py-4 bg-maroon text-white hover:bg-maroon-deep hover:shadow-xl transition-all duration-300 text-lg font-bold tracking-widest">
+          <Link href="/contact" className="inline-block font-cinzel border border-gold/50 rounded-full px-10 py-4 bg-gradient-to-r from-maroon to-maroon-deep text-parchment hover:from-maroon-deep hover:to-maroon hover:shadow-[0_4px_15px_rgba(107,31,26,0.4)] hover:scale-105 transition-all duration-300 text-lg font-bold tracking-widest uppercase">
             Contact Pandit Ji Now
           </Link>
         </div>

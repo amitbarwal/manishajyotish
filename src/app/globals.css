@@ -16,17 +16,17 @@
 }
 
 @theme inline {
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-parchment: var(--parchment);
-  --color-parchment-2: var(--parchment-2);
-  --color-maroon: var(--maroon);
-  --color-maroon-deep: var(--maroon-deep);
-  --color-saffron: var(--saffron);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
-  --color-vermillion: var(--vermillion);
-  --color-teal: var(--teal);
+  --color-ink: #1a0e08;
+  --color-ink-soft: #3a261c;
+  --color-parchment: #f5ecd9;
+  --color-parchment-2: #ede2c8;
+  --color-maroon: #6b1f1a;
+  --color-maroon-deep: #4a1310;
+  --color-saffron: #c8821c;
+  --color-gold: #b08438;
+  --color-gold-soft: #d4a85a;
+  --color-vermillion: #a8331f;
+  --color-teal: #244545;
 
   --font-khand: var(--font-khand);
   --font-noto: var(--font-noto);
