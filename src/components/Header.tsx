@@ -49,9 +49,7 @@ export default function Header() {
           <div className="w-11 h-11 rounded-full border-2 border-gold/50 flex items-center justify-center bg-gradient-to-br from-maroon to-maroon-deep text-white font-cinzel font-bold text-lg group-hover:scale-105 transition-transform shadow-lg group-hover:border-gold">
             MJ
           </div>
-          <span className={`font-cinzel font-bold tracking-widest text-base transition-colors ${
-            isSolid ? "text-maroon group-hover:text-gold" : "text-parchment drop-shadow-md group-hover:text-white"
-          }`}>
+          <span className="font-cinzel font-bold tracking-widest text-base transition-colors text-maroon group-hover:text-maroon-deep">
             Manisha Jyotish
           </span>
         </Link>
@@ -60,14 +58,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
-            
-            // Determine text color based on solid state and active state
-            let textColorClass = "";
-            if (isSolid) {
-              textColorClass = isActive ? "text-maroon font-bold" : "text-ink-soft hover:text-maroon";
-            } else {
-              textColorClass = isActive ? "text-gold font-bold drop-shadow-md" : "text-parchment/90 hover:text-white drop-shadow-sm";
-            }
+            const textColorClass = isActive ? "text-maroon font-bold" : "text-ink-soft hover:text-maroon";
 
             return (
               <Link
@@ -76,19 +67,13 @@ export default function Header() {
                 className={`font-cinzel text-xs tracking-wider px-4 py-2 rounded-md transition-all duration-300 relative group overflow-hidden ${textColorClass}`}
               >
                 <span className="relative z-10">{link.name}</span>
-                <span className={`absolute bottom-0 left-0 w-full h-[2px] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
-                  isSolid ? "bg-gold" : "bg-white"
-                }`}></span>
+                <span className="absolute bottom-0 left-0 w-full h-[2px] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 bg-gold"></span>
               </Link>
             );
           })}
           <Link
             href="/guidebook"
-            className={`ml-4 font-cinzel text-xs tracking-wider font-bold px-5 py-2.5 rounded-md whitespace-nowrap transition-all shadow-md hover:shadow-lg border hover:scale-105 ${
-              isSolid 
-                ? "bg-gradient-to-r from-maroon to-maroon-deep text-white border-maroon/20 hover:from-maroon-deep hover:to-maroon" 
-                : "bg-parchment/20 backdrop-blur-md text-white border-white/40 hover:bg-parchment/40"
-            }`}
+            className="ml-4 font-cinzel text-xs tracking-wider font-bold px-5 py-2.5 rounded-md whitespace-nowrap transition-all shadow-md hover:shadow-lg border hover:scale-105 bg-gradient-to-r from-maroon to-maroon-deep text-white border-maroon/20 hover:from-maroon-deep hover:to-maroon"
           >
             Spiritual Guidebook
           </Link>
@@ -96,9 +81,7 @@ export default function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className={`md:hidden transition-colors focus:outline-none p-2 ${
-            isSolid ? "text-maroon hover:text-gold" : "text-parchment hover:text-white drop-shadow-md"
-          }`}
+          className="md:hidden transition-colors focus:outline-none p-2 text-maroon hover:text-maroon-deep"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle navigation menu"
         >
