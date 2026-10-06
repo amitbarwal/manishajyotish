@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,46 +18,41 @@ const HeroSection = () => {
       { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out", delay: 0.2 }
     );
 
-    // Scroll Fade Out Animation
-    gsap.to(".hero-text-block", {
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-      y: -150,
-      opacity: 0,
-      scale: 0.95
-    });
+    // Image Entrance Animation
+    gsap.fromTo(".hero-image-block",
+      { x: 50, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.4 }
+    );
   }, { scope: container });
 
   return (
-    <div ref={container} className="relative min-h-[90vh] w-full flex items-center justify-center pt-24 pb-16">
+    <div ref={container} className="relative min-h-[80vh] md:min-h-[85vh] w-full flex items-stretch pt-24 overflow-hidden">
       {/* Light Theme Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-parchment via-amber-50 to-parchment-2 overflow-hidden">
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-parchment via-amber-50 to-parchment-2">
         {/* Subtle texture overlay */}
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
       </div>
 
-      {/* Hero Content aligned center */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6">
-        <div className="hero-text-block flex flex-col items-center">
+      {/* Hero Content Container */}
+      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
+        {/* Left Side: Text */}
+        <div className="hero-text-block flex flex-col items-start justify-center text-left order-2 lg:order-1 mt-8 lg:mt-0 pb-16">
           <div className="mb-6">
              <span className="inline-block px-5 py-2 border border-gold rounded-full text-maroon font-cinzel text-xs tracking-widest font-bold bg-white/50 backdrop-blur-sm shadow-sm">
                ✨ VEDIC ASTROLOGY ✨
              </span>
           </div>
-          <h1 className="font-cinzel text-maroon-deep text-4xl md:text-5xl lg:text-7xl font-bold tracking-wider mb-4 leading-tight max-w-5xl">
+          <h1 className="font-cinzel text-maroon-deep text-5xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 leading-tight max-w-2xl">
             Awaken Your Cosmic Destiny
           </h1>
           <h2 className="font-cormorant text-xl md:text-2xl lg:text-3xl text-maroon font-semibold italic mb-8">
             Spiritual Guidance & Authentic Rituals
           </h2>
-          <p className="font-noto text-ink-soft text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="font-noto text-ink-soft text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
             Unlock the hidden patterns of your life with profound insights from Pandit Monu Sharma.
           </p>
-          <div className="flex gap-4 flex-wrap justify-center">
+          <div className="flex gap-4 flex-wrap justify-start">
             <Link href="/contact" className="font-cinzel border border-gold rounded-full px-8 py-3 bg-gradient-to-r from-maroon to-maroon-deep text-parchment hover:shadow-[0_0_20px_rgba(107,31,26,0.3)] hover:scale-105 transition-all duration-300 tracking-widest font-bold text-sm">
               Book a Consultation
             </Link>
@@ -65,6 +61,19 @@ const HeroSection = () => {
             </Link>
           </div>
         </div>
+
+        {/* Right Side: Image (Transparent Background) */}
+        <div className="hero-image-block order-1 lg:order-2 flex justify-center lg:justify-end relative h-[400px] md:h-[500px] lg:h-[650px] w-full self-end lg:-mr-12">
+           <Image 
+             src="/monu-transperent.png" 
+             alt="Acharya Monu Sharma" 
+             fill 
+             sizes="(max-width: 1024px) 100vw, 50vw" 
+             className="object-contain object-bottom drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)]" 
+             priority 
+           />
+        </div>
+
       </div>
     </div>
   );

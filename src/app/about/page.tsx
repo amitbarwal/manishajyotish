@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export default function AboutPage() {
   return (
@@ -16,18 +17,23 @@ export default function AboutPage() {
         
         <div className="border border-gold/40 rounded-xl bg-gradient-to-b from-amber-50/90 to-parchment-2/60 p-8 md:p-12 shadow-sm text-left max-w-4xl mx-auto space-y-8">
           
-          {/* Intro */}
-          <div className="space-y-4 text-ink-soft font-noto text-lg leading-relaxed text-center">
-            <p className="font-bold text-maroon text-xl">हर हर महादेव।</p>
-            <p>
-              मैं <strong>आचार्य मोनू शर्मा</strong> हूँ। मेरा उद्देश्य केवल भविष्य बताना नहीं, बल्कि सनातन ज्ञान के माध्यम से प्रत्येक व्यक्ति को सही दिशा, आत्मविश्वास और आध्यात्मिक उन्नति की ओर प्रेरित करना है।
-            </p>
-            <p className="italic font-semibold text-maroon-deep">
-              "मेरा विश्वास है कि ज्योतिष केवल भविष्यवाणी नहीं, बल्कि जीवन को समझने और सही निर्णय लेने का दिव्य विज्ञान है।"
-            </p>
-            <p>
-              KP Astrology, वैदिक ज्योतिष, कर्मकाण्ड, मंत्र साधना और आध्यात्मिक अध्ययन के माध्यम से मैं लोगों की समस्याओं का समाधान खोजने का प्रयास करता हूँ।
-            </p>
+          {/* Image and Intro block */}
+          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
+            <div className="w-56 h-56 md:w-72 md:h-80 shrink-0 rounded-2xl overflow-hidden border-4 border-gold/40 shadow-xl relative">
+              <Image src="/monu-sharma.jpg" alt="Acharya Monu Sharma" fill sizes="(max-width: 768px) 224px, 288px" className="object-cover object-top" />
+            </div>
+            <div className="space-y-4 text-ink-soft font-noto text-lg leading-relaxed flex-1">
+              <p className="font-bold text-maroon text-xl text-center md:text-left">हर हर महादेव।</p>
+              <p>
+                मैं <strong>आचार्य मोनू शर्मा</strong> हूँ। मेरा उद्देश्य केवल भविष्य बताना नहीं, बल्कि सनातन ज्ञान के माध्यम से प्रत्येक व्यक्ति को सही दिशा, आत्मविश्वास और आध्यात्मिक उन्नति की ओर प्रेरित करना है।
+              </p>
+              <p className="italic font-semibold text-maroon-deep">
+                "मेरा विश्वास है कि ज्योतिष केवल भविष्यवाणी नहीं, बल्कि जीवन को समझने और सही निर्णय लेने का दिव्य विज्ञान है।"
+              </p>
+              <p>
+                KP Astrology, वैदिक ज्योतिष, कर्मकाण्ड, मंत्र साधना और आध्यात्मिक अध्ययन के माध्यम से मैं लोगों की समस्याओं का समाधान खोजने का प्रयास करता हूँ।
+              </p>
+            </div>
           </div>
 
           <div className="w-full h-px bg-gold/30 my-8"></div>
